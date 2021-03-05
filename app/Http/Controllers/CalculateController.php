@@ -9,14 +9,19 @@ class CalculateController extends Controller
 {
     public function index(string $symbol, string $interval)
     {
-        $items = 50;
+        $items = 30;
 
         $data = Http::get("https://api.binance.com/api/v3/klines?symbol={$symbol}&interval={$interval}&limit={$items}")->json();
         $data = collect($data)->pluck(4)->values()->toArray();
         $rsi14 = collect(trader_rsi($data, 14))->values()->last();
 
+        $ema9 = collect(trader_ema($data, 9))->values()->last();
+        $ema26 = collect(trader_ema($data, 26))->values()->last();
+
         return response()->json([
-            'rsi_14' => $rsi14
+            'rsi_14' => $rsi14,
+            'ema_9' => $ema9,
+            'ema_26' => $ema26
         ]);
     }
 
