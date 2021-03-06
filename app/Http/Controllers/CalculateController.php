@@ -7,9 +7,12 @@ use Illuminate\Support\Facades\Http;
 
 class CalculateController extends Controller
 {
-    public function index(string $symbol, string $interval)
+    public function index(Request $request)
     {
         $items = 30;
+
+        $symbol = $request->get('symbol');
+        $interval = $request->get('interval');
 
         $data = Http::get("https://api.binance.com/api/v3/klines?symbol={$symbol}&interval={$interval}&limit={$items}")->json();
         $data = collect($data)->pluck(4)->values()->toArray();
