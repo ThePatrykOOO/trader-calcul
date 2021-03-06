@@ -16,7 +16,7 @@ class CalculateController extends Controller
 
         $data = Http::get("https://api.binance.com/api/v3/klines?symbol={$symbol}&interval={$interval}&limit={$items}")->json();
         $data = collect($data)->pluck(4)->values()->toArray();
-        $rsi14 = collect(trader_sma($data, 14))->values()->last();
+        $rsi14 = collect(trader_rsi($data, 14))->values()->last();
 
         $ema9 = collect(trader_ema($data, 9))->values()->last();
         $ema26 = collect(trader_ema($data, 26))->values()->last();
