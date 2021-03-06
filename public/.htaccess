@@ -19,3 +19,18 @@
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
 </IfModule>
+
+<IfModule mod_rewrite.c>
+    Options +FollowSymLinks
+    RewriteEngine On
+</IfModule>
+
+# For all files not found in the file system, reroute the request to the
+# "index.php" front controller, keeping the query string intact
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^(.*)$ index.php/$1 [L]
+</IfModule>
